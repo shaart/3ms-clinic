@@ -1,0 +1,56 @@
+server:
+  port: 0
+spring:
+  application:
+    name: tms-config
+  cloud:
+    config:
+      discovery:
+        enabled: true
+      server:
+        git:
+          uri: git@github.com:shaart/3ms-clinic-config.git
+          ignoreLocalSshSettings: true
+          force-pull: true
+          privateKey: |
+            -----BEGIN RSA PRIVATE KEY-----
+            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
+            JVU=
+            -----END RSA PRIVATE KEY-----
+
+eureka:
+  instance:
+    instance-id: ${spring.application.name}:${spring.application.instance_id:${random.value}}
+  client:
+    registerWithEureka: true
+    fetchRegistry: true
+    region: default
+    registry-fetch-interval-seconds: 5
+    service-url:
+      defaultZone: http://localhost:8765/eureka

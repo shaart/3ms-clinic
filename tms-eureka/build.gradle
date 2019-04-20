@@ -1,0 +1,72 @@
+buildscript {
+    ext {
+        jaxbVersion = '2.3.0'
+    }
+}
+
+plugins {
+    id 'org.springframework.boot' version '2.1.3.RELEASE'
+    id 'java'
+    id 'application'
+}
+apply plugin: 'io.spring.dependency-management'
+apply plugin: 'idea'
+
+group = 'com.tms.platform'
+version = '0.1.0'
+
+configurations {
+    compileOnly {
+        extendsFrom annotationProcessor
+    }
+}
+
+repositories {
+    mavenCentral()
+    maven { url 'https://repo.spring.io/milestone' }
+}
+
+ext {
+    set('springCloudVersion', 'Greenwich.SR1')
+    javaVersion = '8'
+    lombokVersion = '1.18.6'
+    junitJupiterVersion = '5.3.1'
+    jaxbVersion = '2.3.0'
+    sunJaxbVersion = '2.3.0.1'
+    activationVersion = '1.1.1'
+}
+
+apply plugin: 'java'
+sourceCompatibility = "${javaVersion}"
+targetCompatibility = "${javaVersion}"
+
+dependencies {
+    implementation 'org.springframework.cloud:spring-cloud-starter-netflix-eureka-server'
+    runtimeOnly 'org.springframework.boot:spring-boot-devtools'
+    // For Eureka - JAXB-API
+    compile "javax.xml.bind:jaxb-api:${jaxbVersion}"
+    compile "com.sun.xml.bind:jaxb-core:${sunJaxbVersion}"
+    compile "com.sun.xml.bind:jaxb-impl:${sunJaxbVersion}"
+    compile "javax.activation:activation:${activationVersion}"
+
+    // Project
+    compile project(':tms-core')
+    // Lombok
+    compileOnly "org.projectlombok:lombok:${lombokVersion}"
+    testCompileOnly "org.projectlombok:lombok:${lombokVersion}"
+    annotationProcessor "org.projectlombok:lombok:${lombokVersion}"
+    // Testing
+    testCompile "org.junit.jupiter:junit-jupiter-api:${junitJupiterVersion}"
+    testRuntimeOnly "org.junit.jupiter:junit-jupiter-engine:${junitJupiterVersion}"
+    testImplementation 'org.springframework.boot:spring-boot-starter-test'
+}
+
+dependencyManagement {
+    imports {
+        mavenBom "org.springframework.cloud:spring-cloud-dependencies:${springCloudVersion}"
+    }
+}
+
+application {
+    mainClassName = 'com.tms.platform.eureka.EurekaServerApplication'
+}

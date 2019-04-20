@@ -1,0 +1,5 @@
+rootProject.name = 'tms-platform'
+
+include 'tms-eureka'
+include 'tms-core'
+include 'tms-config'

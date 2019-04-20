@@ -1,0 +1,13 @@
+spring:
+  application:
+    name: tms-eureka
+server:
+  port: 8765
+eureka:
+  client:
+    registerWithEureka: false
+    fetchRegistry: false
+    region: default
+    registry-fetch-interval-seconds: 5
+    service-url:
+      defaultZone: http://localhost:8765/eureka

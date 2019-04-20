@@ -1,3 +1,16 @@
+.gradle
+build
+logs
+
+### IntelliJ IDEA ###
+.idea
+*.iws
+*.iml
+*.ipr
+**/out/
+/out/
+out/
+
 # Compiled class file
 *.class
 

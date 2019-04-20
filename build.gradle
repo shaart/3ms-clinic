@@ -1,0 +1,8 @@
+group 'com.tms.platform'
+version '0.1.0'
+
+subprojects {
+    repositories {
+        mavenCentral()
+    }
+}
