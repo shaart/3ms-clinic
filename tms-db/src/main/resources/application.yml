@@ -1,0 +1,16 @@
+spring:
+  application:
+    name: tms-db
+
+server:
+  port: 0
+
+
+eureka:
+  client:
+    registerWithEureka: true
+    fetchRegistry: true
+    serviceUrl:
+      defaultZone: http://localhost:8765/eureka/
+  instance:
+    hostname: localhost
