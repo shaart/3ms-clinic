@@ -8,8 +8,8 @@ import org.springframework.cloud.netflix.eureka.EnableEurekaClient;
 @SpringBootApplication
 public class TmsDbApplication {
 
-    public static void main(String[] args) {
-        SpringApplication.run(TmsDbApplication.class, args);
-    }
+  public static void main(String[] args) {
+    SpringApplication.run(TmsDbApplication.class, args);
+  }
 
 }
