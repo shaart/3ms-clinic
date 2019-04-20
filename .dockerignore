@@ -1,0 +1,15 @@
+.idea
+assets
+!assets/conf/
+data
+logs
+src
+target
+!target/*.jar
+.gitignore
+.gitlab-ci.yml
+db*
+*.iml
+liquibase.properties
+pom.xml
+README.md

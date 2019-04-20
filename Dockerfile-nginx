@@ -1,0 +1,8 @@
+FROM nginx:1.14
+
+RUN apt-get update \
+  && apt-get install -y logrotate \
+  && apt-get clean
+
+#COPY assets/conf/logrotate/nginx /etc/logrotate.d/nginx
+#COPY assets/conf/nginx/nginx.conf /etc/nginx/nginx.conf

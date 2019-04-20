@@ -2,6 +2,12 @@ buildscript {
     ext {
         jaxbVersion = '2.3.0'
     }
+    dependencies {
+        classpath 'com.bmuschko:gradle-docker-plugin:3.2.5'
+    }
+    repositories {
+        jcenter()
+    }
 }
 
 plugins {
@@ -11,6 +17,10 @@ plugins {
 }
 apply plugin: 'io.spring.dependency-management'
 apply plugin: 'idea'
+apply plugin: 'com.bmuschko.docker-java-application'
+apply plugin: 'com.bmuschko.docker-remote-api'
+
+import com.bmuschko.gradle.docker.tasks.container.*
 
 group = 'com.tms.platform'
 version = '0.1.0'
@@ -19,11 +29,6 @@ configurations {
     compileOnly {
         extendsFrom annotationProcessor
     }
-}
-
-repositories {
-    mavenCentral()
-    maven { url 'https://repo.spring.io/milestone' }
 }
 
 ext {
@@ -69,4 +74,20 @@ dependencyManagement {
 
 application {
     mainClassName = 'com.tms.platform.eureka.EurekaServerApplication'
+}
+
+docker {
+    url = 'http://127.0.0.1:2375'
+    javaApplication {
+        baseImage = 'openjdk:8'
+        tag = 'tms-eureka'
+    }
+}
+task createContainer(type: DockerCreateContainer, dependsOn: dockerBuildImage) {
+    dependsOn(clean, build)
+    targetImageId { dockerBuildImage.getImageId() }
+}
+
+task startContainer(type: DockerStartContainer, dependsOn: createContainer) {
+    targetContainerId { createContainer.getContainerId() }
 }

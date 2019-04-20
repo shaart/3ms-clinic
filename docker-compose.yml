@@ -1,0 +1,49 @@
+version: '3.4'
+
+services:
+  nginx:
+    build:
+      context: .
+      dockerfile: Dockerfile-nginx
+    ports:
+      - 80:80
+      - 443:443
+    volumes:
+      - /var/log/tms:/var/log/tms
+      - /etc/ssl:/etc/ssl
+
+  eureka:
+    image: tms-eureka
+    depends_on:
+      - nginx
+    ports:
+      - 8765:8765
+
+  config:
+    image: tms-config
+    depends_on:
+      - eureka
+    ports:
+      - 8888:8888
+
+  db:
+    image: tms-db
+    depends_on:
+      - config
+      - postgres
+    ports:
+      - 8080:8080
+
+  postgres:
+    image: postgres
+    ports:
+      - 5432:5432
+    environment:
+      - POSTGRES_USER
+      - POSTGRES_DB
+      - POSTGRES_PASSWORD
+    volumes:
+      - postgres:/var/lib/postgresql/data
+
+volumes:
+  postgres: {}
