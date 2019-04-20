@@ -1,5 +1,6 @@
 plugins {
     id 'java-library'
+    id 'java'
 }
 
 group 'com.tms.platform'
@@ -13,6 +14,7 @@ ext {
     javaVersion = '8'
     lombokVersion = '1.18.6'
     junitJupiterVersion = '5.3.1'
+    set('springCloudVersion', 'Greenwich.SR1')
 }
 
 apply plugin: 'java'
@@ -27,4 +29,11 @@ dependencies {
     // Testing
     testCompile "org.junit.jupiter:junit-jupiter-api:${junitJupiterVersion}"
     testRuntimeOnly "org.junit.jupiter:junit-jupiter-engine:${junitJupiterVersion}"
+
+    // Database
+    compile 'javax.persistence:javax.persistence-api:2.2'
+    compile 'org.hibernate:hibernate-core:5.3.9.Final'
+
+    implementation 'io.github.openfeign:feign-core:10.1.0'
+    implementation 'org.springframework.cloud:spring-cloud-openfeign-core:2.1.1.RELEASE'
 }

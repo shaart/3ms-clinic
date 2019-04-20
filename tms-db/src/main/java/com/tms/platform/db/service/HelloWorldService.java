@@ -1,22 +1,27 @@
 package com.tms.platform.db.service;
 
-import com.tms.platform.db.repository.HelloEntity;
-import com.tms.platform.db.repository.HelloWorldRepo;
+import com.tms.platform.common.dto.HelloDto;
+import com.tms.platform.db.entity.HelloEntity;
+import com.tms.platform.db.repository.HelloWorldRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 @Service
 public class HelloWorldService {
 
-    private HelloWorldRepo repository;
+  private HelloWorldRepository repository;
 
-    @Autowired
-    public HelloWorldService(HelloWorldRepo repository){
-        this.repository = repository;
-    }
+  @Autowired
+  public HelloWorldService(HelloWorldRepository repository) {
+    this.repository = repository;
+  }
 
-    public HelloEntity getHelloEntityById(Integer id){
+  public HelloDto getHelloEntityById(Integer id) {
 
-        return repository.findById(id).orElseThrow(RuntimeException::new);
-    }
+    HelloEntity helloEntity = repository.findById(id).orElseThrow(RuntimeException::new);
+    HelloDto helloDto = new HelloDto();
+    helloDto.setId(helloEntity.getId());
+    helloDto.setName(helloEntity.getName());
+    return helloDto;
+  }
 }
