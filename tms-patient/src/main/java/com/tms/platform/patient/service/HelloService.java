@@ -2,14 +2,14 @@ package com.tms.platform.patient.service;
 
 import com.tms.platform.common.dto.HelloDto;
 import com.tms.platform.common.feign.HelloClient;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 @Service
+@RequiredArgsConstructor
 public class HelloService {
 
-  @Autowired
-  private HelloClient helloClient;
+  private final HelloClient helloClient;
 
   public HelloDto getHello(String id) {
     return helloClient.getHello(id);

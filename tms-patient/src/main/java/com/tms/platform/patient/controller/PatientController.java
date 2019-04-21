@@ -2,8 +2,8 @@ package com.tms.platform.patient.controller;
 
 import com.tms.platform.patient.service.PatientService;
 import java.util.List;
+import lombok.RequiredArgsConstructor;
 import org.hl7.fhir.r4.model.Patient;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -14,10 +14,10 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RequestMapping
 @RestController
+@RequiredArgsConstructor
 public class PatientController {
 
-  @Autowired
-  private PatientService patientService;
+  private final PatientService patientService;
 
   @GetMapping("/{id}")
   public Patient getPatient(@PathVariable String id) {
