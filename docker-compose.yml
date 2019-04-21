@@ -7,7 +7,8 @@ services:
       dockerfile: Dockerfile-nginx
     ports:
       - 80:80
-      - 443:443
+    depends_on:
+      - tms-patient
     volumes:
       - /var/log/tms:/var/log/tms
       - /etc/ssl:/etc/ssl
@@ -17,8 +18,6 @@ services:
       context: .
       dockerfile: tms-eureka/dockerfile
     image: tms-eureka
-    depends_on:
-      - tms-nginx
     ports:
       - 8765:8765
 
@@ -39,7 +38,7 @@ services:
     image: tms-db
     depends_on:
       - tms-config
-      - tms-postgres
+      - tms-mongo
     ports:
       - 8080:8080
 
@@ -51,18 +50,14 @@ services:
     depends_on:
       - tms-db
     ports:
-      - 8081:8080
+      - 8081:8081
 
-  tms-postgres:
-    image: postgres
+  tms-mongo:
+    image: mongo
     ports:
-      - 5432:5432
-    environment:
-      - POSTGRES_USER
-      - POSTGRES_DB
-      - POSTGRES_PASSWORD
+      - 27017:27017
     volumes:
-      - postgres:/var/lib/postgresql/data
+      - mongo:/var/lib/mongo/data
 
 volumes:
-  postgres: {}
+  mongo: {}
