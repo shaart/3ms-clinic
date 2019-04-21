@@ -1,13 +1,28 @@
+buildscript {
+	dependencies {
+		classpath 'com.bmuschko:gradle-docker-plugin:4.7.1'
+	}
+	repositories {
+		jcenter()
+	}
+}
 plugins {
 	id 'org.springframework.boot' version '2.1.4.RELEASE'
 	id 'java'
+	id 'application'
 }
 
 apply plugin: 'io.spring.dependency-management'
+apply plugin: 'com.bmuschko.docker-java-application'
+apply plugin: 'com.bmuschko.docker-remote-api'
+apply plugin: DockerRemoteApiPlugin
+
+import com.bmuschko.gradle.docker.DockerRemoteApiPlugin
+import com.bmuschko.gradle.docker.tasks.container.*
+import com.bmuschko.gradle.docker.tasks.image.*
 
 group = 'com.tms.platform'
 version = '0.1.0'
-sourceCompatibility = '1.8'
 
 configurations {
 	compileOnly {
@@ -20,8 +35,13 @@ repositories {
 }
 
 ext {
+	javaVersion = '8'
 	set('springCloudVersion', 'Greenwich.SR1')
 }
+
+apply plugin: 'java'
+sourceCompatibility = "${javaVersion}"
+targetCompatibility = "${javaVersion}"
 
 dependencies {
 	// Project
@@ -44,4 +64,24 @@ dependencyManagement {
 	imports {
 		mavenBom "org.springframework.cloud:spring-cloud-dependencies:${springCloudVersion}"
 	}
+}
+application {
+	mainClassName = 'com.tms.platform.patient.TmsPatientApplication'
+}
+
+docker {
+	url = 'http://127.0.0.1:2375'
+	javaApplication {
+		baseImage = 'openjdk:8'
+		tag = 'tms-eureka'
+	}
+}
+
+task createContainer(type: DockerCreateContainer, dependsOn: dockerBuildImage) {
+	dependsOn(build)
+	targetImageId { dockerBuildImage.getImageId() }
+}
+
+task startContainer(type: DockerStartContainer, dependsOn: createContainer) {
+	targetContainerId { createContainer.getContainerId() }
 }

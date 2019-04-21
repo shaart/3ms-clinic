@@ -14,7 +14,7 @@ spring:
             non_contextual_creation: true
 
   datasource:
-    url: jdbc:postgresql://localhost:5432/postgres
+    url: jdbc:postgresql://tms-postgres:5432/postgres
     username: postgres
     password: docker
 
@@ -25,4 +25,4 @@ eureka:
     registerWithEureka: true
     fetchRegistry: true
     serviceUrl:
-      defaultZone: http://localhost:8765/eureka/
+      defaultZone: http://tms-eureka:8765/eureka/

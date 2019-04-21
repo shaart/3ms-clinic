@@ -1,7 +1,7 @@
 version: '3.4'
 
 services:
-  nginx:
+  tms-nginx:
     build:
       context: .
       dockerfile: Dockerfile-nginx
@@ -12,29 +12,48 @@ services:
       - /var/log/tms:/var/log/tms
       - /etc/ssl:/etc/ssl
 
-  eureka:
+  tms-eureka:
+    build:
+      context: .
+      dockerfile: tms-eureka/dockerfile
     image: tms-eureka
     depends_on:
-      - nginx
+      - tms-nginx
     ports:
       - 8765:8765
 
-  config:
+  tms-config:
+    build:
+      context: .
+      dockerfile: tms-config/dockerfile
     image: tms-config
     depends_on:
-      - eureka
+      - tms-eureka
     ports:
       - 8888:8888
 
-  db:
+  tms-db:
+    build:
+      context: .
+      dockerfile: tms-db/dockerfile
     image: tms-db
     depends_on:
-      - config
-      - postgres
+      - tms-config
+      - tms-postgres
     ports:
       - 8080:8080
 
-  postgres:
+  tms-patient:
+    build:
+      context: .
+      dockerfile: tms-patient/dockerfile
+    image: tms-patient
+    depends_on:
+      - tms-db
+    ports:
+      - 8081:8080
+
+  tms-postgres:
     image: postgres
     ports:
       - 5432:5432

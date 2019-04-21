@@ -74,4 +74,4 @@ eureka:
     region: default
     registry-fetch-interval-seconds: 5
     service-url:
-      defaultZone: http://localhost:8765/eureka
+      defaultZone: http://tms-eureka:8765/eureka

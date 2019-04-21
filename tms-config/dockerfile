@@ -1,4 +1,4 @@
 FROM openjdk:8-jre
 
-RUN javac ConfigServerApplication.java
-CMD java -XX:+UseG1GC -Xms256m -Xmx512m -jar tms-config.jar
+COPY tms-config/build/libs/tms-config-0.1.0.jar /tms-config.jar
+CMD java -XX:+UseG1GC -Xms256m -Xmx512m -jar /tms-config.jar

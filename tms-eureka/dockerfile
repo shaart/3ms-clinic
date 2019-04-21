@@ -1,4 +1,3 @@
 FROM openjdk:8-jre
-
-RUN javac EurekaServerApplication.java
-CMD java -XX:+UseG1GC -Xms256m -Xmx512m -jar tms-eureka.jar
+COPY tms-eureka/build/libs/tms-eureka-0.1.0.jar /tms-eureka.jar
+CMD java -XX:+UseG1GC -Xms256m -Xmx512m -jar /tms-eureka.jar

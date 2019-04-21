@@ -1,4 +1,3 @@
 FROM openjdk:8-jre
-
-RUN javac TmsDbApplication.java
-CMD java -XX:+UseG1GC -Xms256m -Xmx512m -jar tms-db.jar
+COPY tms-db/build/libs/tms-db-0.1.0.jar /tms-db.jar
+CMD java -XX:+UseG1GC -Xms256m -Xmx512m -Dserver.port=8080 -jar /tms-db.jar
