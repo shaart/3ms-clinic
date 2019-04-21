@@ -11,7 +11,7 @@ import org.springframework.data.mongodb.core.mapping.Document;
 @NoArgsConstructor
 @Getter
 @Setter
-@Document(collection = "patient")
+@Document(collection = "hello")
 public class HelloEntity implements Serializable {
 
   public HelloEntity(String name) {
