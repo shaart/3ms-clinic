@@ -1,4 +1,4 @@
-package com.tms.platform.patient;
+package com.tms.platform.patient.controller;
 
 import com.tms.platform.common.dto.HelloDto;
 import com.tms.platform.patient.service.HelloService;
@@ -16,7 +16,7 @@ public class HelloController {
   private HelloService helloService;
 
   @GetMapping("/{id}")
-  public HelloDto getHello(@PathVariable int id) {
+  public HelloDto getHello(@PathVariable String id) {
     return helloService.getHello(id);
   }
 }

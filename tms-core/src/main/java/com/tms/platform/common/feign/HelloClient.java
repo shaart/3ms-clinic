@@ -9,5 +9,5 @@ import org.springframework.web.bind.annotation.RequestMapping;
 public interface HelloClient {
 
   @RequestMapping("/hello/{id}")
-  HelloDto getHello(@PathVariable("id") Integer id);
+  HelloDto getHello(@PathVariable("id") String id);
 }

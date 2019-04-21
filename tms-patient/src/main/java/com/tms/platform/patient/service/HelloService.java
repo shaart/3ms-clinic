@@ -11,8 +11,7 @@ public class HelloService {
   @Autowired
   private HelloClient helloClient;
 
-  public HelloDto getHello(int id) {
+  public HelloDto getHello(String id) {
     return helloClient.getHello(id);
   }
-
 }
