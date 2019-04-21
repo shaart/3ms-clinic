@@ -2,10 +2,12 @@ package com.tms.platform.patient.controller;
 
 import ca.uhn.fhir.context.FhirContext;
 import ca.uhn.fhir.parser.IParser;
-import ca.uhn.fhir.parser.JsonParser;
 import com.tms.platform.patient.service.PatientService;
+import java.util.List;
+import java.util.StringJoiner;
 import org.hl7.fhir.r4.model.Patient;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -17,19 +19,40 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 public class PatientController {
 
+  private static final FhirContext FHIR_CONTEXT = FhirContext.forR4();
+
   @Autowired
   private PatientService patientService;
 
   @GetMapping("/{id}")
-  public Patient getPatient(@PathVariable String id) {
-    return patientService.getPatient(id);
+  public String getPatient(@PathVariable String id) {
+    IParser jsonParser = FHIR_CONTEXT.newJsonParser();
+    Patient patient = patientService.getPatient(id);
+    return patientToJson(jsonParser, patient);
   }
 
-  @PostMapping(consumes = "application/json")
+  @DeleteMapping("/{id}")
+  public Long deletePatient(@PathVariable String id) {
+    return patientService.deletePatientById(id);
+  }
+
+  @PostMapping
   public Patient savePatient(@RequestBody String patientJson) {
-    FhirContext fhirContext = FhirContext.forR4();
-    IParser jsonParser = fhirContext.newJsonParser();
+    IParser jsonParser = FHIR_CONTEXT.newJsonParser();
     Patient patient = jsonParser.parseResource(Patient.class, patientJson);
     return patientService.savePatient(patient);
+  }
+
+  @GetMapping(produces = "application/json")
+  public String getPatientsList() {
+    IParser jsonParser = FHIR_CONTEXT.newJsonParser();
+    List<Patient> patientsList = patientService.getPatientsList();
+    StringJoiner stringJoiner = new StringJoiner(",", "[", "]");
+    patientsList.forEach(patient -> stringJoiner.add(patientToJson(jsonParser, patient)));
+    return stringJoiner.toString();
+  }
+
+  private String patientToJson(IParser jsonParser, Patient patient) {
+    return jsonParser.encodeResourceToString(patient);
   }
 }
