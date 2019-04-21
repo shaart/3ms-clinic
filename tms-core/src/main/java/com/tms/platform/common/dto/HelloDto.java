@@ -9,6 +9,6 @@ import lombok.ToString;
 @ToString
 public class HelloDto {
 
-  int id;
+  String id;
   String name;
 }
