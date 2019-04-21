@@ -16,9 +16,18 @@ public class HelloWorldService {
     this.repository = repository;
   }
 
-  public HelloDto getHelloEntityById(Integer id) {
+  public HelloDto getHelloEntityById(String id) {
 
     HelloEntity helloEntity = repository.findById(id).orElseThrow(RuntimeException::new);
+    HelloDto helloDto = new HelloDto();
+    helloDto.setId(helloEntity.getId());
+    helloDto.setName(helloEntity.getName());
+    return helloDto;
+  }
+
+  public HelloDto getHelloEntityByName(String name) {
+
+    HelloEntity helloEntity = repository.findByName(name);
     HelloDto helloDto = new HelloDto();
     helloDto.setId(helloEntity.getId());
     helloDto.setName(helloEntity.getName());

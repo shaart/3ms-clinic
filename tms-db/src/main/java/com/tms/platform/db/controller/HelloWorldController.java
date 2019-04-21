@@ -18,8 +18,15 @@ public class HelloWorldController {
   }
 
   @GetMapping("/hello/{id}")
-  public HelloDto greeting(@PathVariable(name = "id") Integer id) {
+  public HelloDto greeting(@PathVariable(name = "id") String id) {
 
     return service.getHelloEntityById(id);
+  }
+
+
+  @GetMapping("/hellobyname/{name}")
+  public HelloDto greetingByName(@PathVariable(name = "name") String name) {
+
+    return service.getHelloEntityByName(name);
   }
 }

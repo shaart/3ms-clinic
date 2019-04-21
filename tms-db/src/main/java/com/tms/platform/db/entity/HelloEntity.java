@@ -1,24 +1,25 @@
 package com.tms.platform.db.entity;
 
 import java.io.Serializable;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.Table;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.mapping.Document;
 
-@Entity
+
+@NoArgsConstructor
 @Getter
 @Setter
-@Table(schema = "public", name = "hello")
+@Document(collection = "patient")
 public class HelloEntity implements Serializable {
 
-  @Id
-  @GeneratedValue
-  private Integer id;
+  public HelloEntity(String name) {
+    this.name = name;
+  }
 
-  @Column(name = "name")
+  @Id
+  private String id;
+
   private String name;
 }
