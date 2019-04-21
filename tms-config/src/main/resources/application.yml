@@ -1,6 +1,8 @@
 server:
   port: 8888
 spring:
+  profiles:
+    active: dev
   application:
     name: tms-config
   cloud:
@@ -73,5 +75,3 @@ eureka:
     fetchRegistry: true
     region: default
     registry-fetch-interval-seconds: 5
-    service-url:
-      defaultZone: http://tms-eureka:8765/eureka

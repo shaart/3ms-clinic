@@ -8,6 +8,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @FeignClient("tms-db")
 public interface HelloClient {
 
-  @RequestMapping("/hello/{id}")
-  HelloDto getHello(@PathVariable("id") Integer id);
+  @RequestMapping("/hellobyname/{id}")
+  HelloDto getHello(@PathVariable("id") String id);
 }
