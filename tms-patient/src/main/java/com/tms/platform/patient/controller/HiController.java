@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/hi")
 @RestController
 @RequiredArgsConstructor
-public class HelloController {
+public class HiController {
 
   private final HelloService helloService;
 
